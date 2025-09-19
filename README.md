@@ -1,73 +1,87 @@
-# ⚡ Electricity Load Optimizer
+Electricity Load Forecasting and Supply Optimization
+This project creates a synthetic electricity load dataset with daily data for two years and builds an XGBoost regression model to forecast next-day electricity load. It features user input for custom next-day conditions, supply optimization recommendations with cost estimation, and visualization of load patterns and forecast accuracy.
 
-An AI-powered electricity load forecasting and optimization tool that predicts future electricity consumption using **Holt-Winters Exponential Smoothing** and provides **AI-driven recommendations** for supply optimization, cost reduction, and peak load management via the **Gemini API**.
+Features
+Synthetic daily electricity load data considering trend, annual and weekly seasonality, plus random noise.
 
----
+Additional features: temperature (°F), holiday indicator, weekend indicator, and lagged load values.
 
-## 📌 Features
-- Forecast future electricity load (next 3 periods).
-- Detects consumption trend 📈 increasing or 📉 decreasing.
-- AI-generated recommendations:
-  - Supply optimization (renewable vs non-renewable mix).
-  - Cost-saving analysis for companies and consumers.
-  - Strategies for reducing peak load demand.
-- Works via command line interface (CLI).
-- Interactive input mode if arguments are not provided.
+XGBoost regression model to predict next-day load based on engineered features.
 
----
+User input interface for custom next-day temperature, holiday, and weekend flags.
 
-## 🛠 Installation & Setup
+Supply recommendation with buffer percentage and estimated cost.
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/yourusername/electricity-load-optimizer.git
-cd electricity-load-optimizer
-2. Install Dependencies
-bash
-Copy code
-pip install pandas numpy statsmodels google-generativeai
-3. Configure API Key
-Replace the placeholder API key in the script with your Gemini API key:
+Visualizations:
 
-python
-Copy code
-genai.configure(api_key="YOUR_GEMINI_API_KEY")
-🚀 Usage
-CLI Mode
-Run the script with historical electricity consumption data (comma-separated, at least 5 values):
+Actual vs predicted load over time
 
-bash
-Copy code
-python electricity_load_optimizer.py --consumption 120,130,150,160,170,200,210
-Interactive Mode
-If no argument is passed, the script will prompt for input:
+Load relationship with temperature by weekday/weekend.
+
+Requirements
+Python 3.x
+
+pandas
+
+numpy
+
+xgboost
+
+scikit-learn
+
+matplotlib
+
+seaborn
+
+Install dependencies:
 
 bash
-Copy code
-python electricity_load_optimizer.py
-Then enter values:
+pip install pandas numpy xgboost scikit-learn matplotlib seaborn
+Usage
+Run the script
+The script generates the synthetic electricity_load_data.csv dataset and trains the forecasting model.
 
-java
-Copy code
-Enter past electricity consumption (comma-separated, at least 5 values): 100,120,130,140,160,180
-📊 Example Output
-markdown
-Copy code
-⚡ Electricity Load Forecast & AI Analysis
---------------------------------------------------
-Next 3 Forecasted Loads : [215.5, 222.3, 229.1]
-Trend                   : increasing 📈
+Input next-day features
+When prompted, enter values or accept defaults for:
 
-🤖 AI Energy Optimization & Cost Analysis:
-- Shift high-consumption activities to off-peak hours.
-- Increase renewable integration (solar/wind during daytime).
-- Use demand-response incentives to reduce peak load.
-- Consumers can save ~10-15% with smart appliances & load shifting.
-🔮 Future Enhancements
-Add seasonal forecasting (e.g., daily/weekly patterns).
+Temperature (°F)
 
-Plot forecast trends with matplotlib.
+Holiday flag (1 for yes, 0 for no)
 
-Export forecast results and AI recommendations to CSV/JSON.
+Weekend flag (1 for yes, 0 for no)
 
-Deploy as a Flask web app for interactive use.
+Output
+
+Predicted electricity load (MW) for the next day
+
+Recommended supply quantity with a 10% safety buffer
+
+Estimated cost for this supply (based on a fixed cost per MW)
+
+Visualizations
+
+Line plot comparing actual load and predicted load over the test period
+
+Scatter plot showing load vs temperature split by weekday/weekend
+
+Data Description
+date: Daily date index for two years
+
+load_MW: Simulated electricity load in megawatts
+
+temperature_F: Simulated daily temperature in Fahrenheit
+
+holiday: Binary flag for Christmas period (Dec 24-26)
+
+day_of_week: Numeric day of week (0=Monday)
+
+is_weekend: Binary weekend flag
+
+load_lag1, load_lag7: Lagged electricity load from previous day and week
+
+Notes
+The train/test split respects temporal order to avoid leakage.
+
+The cost per MW and buffer percent can be adjusted in the script.
+
+Visualizations require a graphical environment for display.
